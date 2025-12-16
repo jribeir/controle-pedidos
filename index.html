@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Levantamento de Pedidos - Área de Devolução</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    
+    <div id="toast">
+        <span id="desc">Volumetria diferente na Saída. Deseja continuar?</span>
+        <button id="toastConfirm">Sim</button>
+        <button id="toastCancel">Cancelar</button>
+    </div>
+
+
+
+    <div class="notifications" id="notifications"></div>
+
+    <!-- Header -->
+    <header class="main-header">
+        <nav class="nav-links">
+            <a href="#entrada" class="active">Entrada de Pedidos</a>
+            <a href="#saida">Saída de Pedidos</a>
+        </nav>
+
+         <div class="logo-container">
+            <a href="#entrada">
+            <img src="vtc.png" alt="Logo" id="logo">
+            </a>
+        </div>
+        
+    </header>
+
+    <!-- Seção Entrada -->
+    <section id="entradaSection" class="aba">
+        <h2>Entrada de Pedidos</h2>
+        <form id="formEntrada">
+            <input type="text" id="pedido" placeholder="Número do Pedido" required>
+            <input type="text" id="uf" placeholder="UF" required>
+            <input type="number" id="volume" placeholder="Volume" required>
+            <input type="number" id="volume_ter" placeholder="Volumetria terciária" required>
+            <input type="text" id="lote" placeholder="Lote" required>
+            <input type="date" id="fabricacao" required>
+            <input type="date" id="validade" required>
+            <input type="number" id="tempCarro" placeholder="Temperatura do Carro" required step="0.1">
+            <input type="number" id="tempPedido" placeholder="Temperatura do Pedido" required step="0.1">
+            <textarea id="obs" placeholder="Observações"></textarea>
+            <button type="submit">Adicionar Pedido</button>
+        </form>
+    </section>
+
+    <!-- Seção Saída -->
+    <section id="saidaSection" class="aba" style="display:none;">
+        <h2>Saída de Pedidos</h2>
+        <form id="formSaida">
+            <input type="text" id="pedidoSaida" placeholder="Número do Pedido (da Entrada)" required>
+            <input type="number" id="volumeSaida" placeholder="Volume de Saída" required>
+            <button type="submit">Registrar Saída</button>
+        </form>
+        <table id="tabelaSaida">
+            <tr>
+                <th>Número Pedido</th>
+                <th>Volume Saída</th>
+                <th>UF</th>
+                <th>Lote</th>
+                <th>Volume Entrada</th>
+                <th>Volumetria Terciária</th>
+                <th>Fabricação</th>
+                <th>Validade</th>
+                <th>Dias Aguardando</th>
+                <th>OBS</th>
+                <th>Status</th>
+            </tr>
+        </table>
+    </section>
+
+    <script src="script.js"></script>
+</body>
+</html>
