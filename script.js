@@ -18,7 +18,6 @@ async function carregarEntradas() {
 //CARREGA PEDIDOS AO ABRIR PAGINA
 carregarEntradas();
 
-
 document.getElementById("pedido").addEventListener("input", function () {
   this.value = this.value.toUpperCase().trim();
 });
@@ -67,7 +66,7 @@ function atualizarSaida() {
         <td>${p.uf}</td>
         <td>${p.lote}</td>
         <td>${p.volume}</td>
-        <td>${p.volume_ter}</td>
+        <td>${p.volume_sec}</td>
         <td>${p.fabricacao}</td>
         <td>${p.validade}</td>
         <td>${p.dias}</td>
@@ -123,7 +122,7 @@ formEntrada.addEventListener("submit", function (e) {
     uf: document.getElementById("uf").value,
     lote: document.getElementById("lote").value,
     volume: Number(document.getElementById("volume").value),
-    volume_ter: document.getElementById("volume_ter").value,
+    volume_ter: document.getElementById("volume_sec").value,
     fabricacao: document.getElementById("fabricacao").value,
     validade: document.getElementById("validade").value,
     dias: new Date().toLocaleDateString("pt-BR", {
@@ -233,4 +232,21 @@ links.forEach(link => {
     const section = document.getElementById(targetId + "Section");
     if (section) section.style.display = "block";
   });
+
+  function formatarMesAno(input) {
+    input.addEventListener("input", function () {
+      let v = input.value.replace(/\D/g, "");
+
+      if (v.length > 6) v = v.slice(0, 6);
+
+      if (v.length >= 3) {
+        input.value = v.slice(0, 2) + "/" + v.slice(2);
+      } else {
+        input.value = v;
+      }
+    });
+  }
+
+  formatarMesAno(document.getElementById("fabricacao"));
+  formatarMesAno(document.getElementById("validade"));
 });
