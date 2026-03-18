@@ -15,15 +15,17 @@ async function carregarEntradas() {
   }
 }
 
-//CARREGA PEDIDOS AO ABRIR PAGINA
+// CARREGA PEDIDOS AO ABRIR PAGINA
 carregarEntradas();
 
 document.getElementById("pedido").addEventListener("input", function () {
   this.value = this.value.toUpperCase().trim();
 });
+
 document.getElementById("uf").addEventListener("input", function () {
   this.value = this.value.toUpperCase().trim();
 });
+
 document.getElementById("lote").addEventListener("input", function () {
   this.value = this.value.toUpperCase().trim();
 });
@@ -40,7 +42,7 @@ const toast = document.getElementById("toast");
 const toastConfirm = document.getElementById("toastConfirm");
 const toastCancel = document.getElementById("toastCancel");
 
-//ATUALIZAR PAGINA
+// ATUALIZAR PAGINA
 function atualizarSaida() {
   tabelaSaida.innerHTML = `
     <tr>
@@ -81,17 +83,23 @@ function atualizarSaida() {
 function mostrarNotificacaoErro(msg) {
   const container = document.getElementById("notifications");
   const notification = document.createElement("div");
+
   notification.classList.add("notification", "show");
-  notification.innerHTML = `<span class="icon">⚠️</span>${msg}
-    <button class="close">&times;</button>`;
+
+  notification.innerHTML = `
+    <span class="icon">⚠️</span>
+    ${msg}
+    <button class="close">&times;</button>
+  `;
 
   container.appendChild(notification);
 
   notification.querySelector(".close").onclick = () => notification.remove();
+
   setTimeout(() => notification.remove(), 3000);
 }
 
-//TOAST
+// TOAST
 function mostrarToastVolumetria(confirmCallback) {
   toast.classList.add("show");
 
@@ -105,7 +113,7 @@ function mostrarToastVolumetria(confirmCallback) {
   };
 }
 
-//ENTRADA DE PEDIDOS
+// ENTRADA DE PEDIDOS
 formEntrada.addEventListener("submit", function (e) {
   e.preventDefault();
 
@@ -118,17 +126,18 @@ formEntrada.addEventListener("submit", function (e) {
 
   const novaEntrada = {
     tipo: "entrada",
+    operacao: document.querySelector('input[name="operacao"]:checked').value,
     pedido: numeroPedido,
     uf: document.getElementById("uf").value,
     lote: document.getElementById("lote").value,
     volume: Number(document.getElementById("volume").value),
-    volume_ter: document.getElementById("volume_sec").value,
+    volume_sec: document.getElementById("volume_sec").value,
     fabricacao: document.getElementById("fabricacao").value,
     validade: document.getElementById("validade").value,
     dias: new Date().toLocaleDateString("pt-BR", {
-        month: "2-digit",
-        year: "numeric"
-        }),
+      month: "2-digit",
+      year: "numeric"
+    }),
     obs: document.getElementById("obs").value,
     tempCarro: document.getElementById("tempCarro").value,
     tempPedido: document.getElementById("tempPedido").value,
@@ -141,10 +150,10 @@ formEntrada.addEventListener("submit", function (e) {
   fetch(ENDPOINT, {
     method: "POST",
     body: JSON.stringify(novaEntrada)
-  });
+  })
 });
 
-//SAIDA DE PEDIDOS
+// SAIDA DE PEDIDOS
 formSaida.addEventListener("submit", async function (e) {
   e.preventDefault();
 
@@ -170,6 +179,7 @@ formSaida.addEventListener("submit", async function (e) {
   const pedidoEntrada = window.entradas[realIdx];
 
   function processarSaida() {
+
     window.entradas.splice(realIdx, 1);
 
     const restante = pedidoEntrada.volume - volumeSaida;
@@ -182,14 +192,15 @@ formSaida.addEventListener("submit", async function (e) {
     };
 
     window.saidas.push(registroSaida);
-    atualizarSaida();
 
-    fetch(ENDPOINT, {
-      method: "POST",
-      body: JSON.stringify(registroSaida)
+        atualizarSaida();
+        fetch(ENDPOINT, {
+          method: "POST",
+          body: JSON.stringify(registroSaida)
     });
 
     if (restante > 0) {
+
       const novaEntrada = {
         ...pedidoEntrada,
         tipo: "entrada",
@@ -203,6 +214,7 @@ formSaida.addEventListener("submit", async function (e) {
         method: "POST",
         body: JSON.stringify(novaEntrada)
       });
+
     }
 
     formSaida.reset();
@@ -213,15 +225,20 @@ formSaida.addEventListener("submit", async function (e) {
   } else {
     processarSaida();
   }
+
 });
 
-//ALTERNAR ABAS
+// ALTERNAR ABAS
 const links = document.querySelectorAll(".nav-links a");
+
 links.forEach(link => {
+
   link.addEventListener("click", function (e) {
+
     e.preventDefault();
 
     links.forEach(l => l.classList.remove("active"));
+
     this.classList.add("active");
 
     document.querySelectorAll(".aba").forEach(sec => {
@@ -229,24 +246,33 @@ links.forEach(link => {
     });
 
     const targetId = this.getAttribute("href").substring(1);
+
     const section = document.getElementById(targetId + "Section");
+
     if (section) section.style.display = "block";
+
   });
 
-  function formatarMesAno(input) {
-    input.addEventListener("input", function () {
-      let v = input.value.replace(/\D/g, "");
-
-      if (v.length > 6) v = v.slice(0, 6);
-
-      if (v.length >= 3) {
-        input.value = v.slice(0, 2) + "/" + v.slice(2);
-      } else {
-        input.value = v;
-      }
-    });
-  }
-
-  formatarMesAno(document.getElementById("fabricacao"));
-  formatarMesAno(document.getElementById("validade"));
 });
+
+// FORMATO MM/AAAA
+function formatarMesAno(input) {
+
+  input.addEventListener("input", function () {
+
+    let v = input.value.replace(/\D/g, "");
+
+    if (v.length > 6) v = v.slice(0, 6);
+
+    if (v.length >= 3) {
+      input.value = v.slice(0, 2) + "/" + v.slice(2);
+    } else {
+      input.value = v;
+    }
+
+  });
+
+}
+
+formatarMesAno(document.getElementById("fabricacao"));
+formatarMesAno(document.getElementById("validade"));
