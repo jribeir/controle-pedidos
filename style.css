@@ -332,3 +332,37 @@ html, body{
     from { opacity: 0; transform: translateY(-20px) translateX(-50%); }
     to { opacity: 1; transform: translateY(0) translateX(-50%); }
 }
+
+.tipo-operacao{
+    display:flex;
+    gap:15px;
+    margin-bottom:5px;
+}
+
+.tipo-operacao label{
+    display:flex;
+    align-items:center;
+    cursor:pointer;
+    font-size:14px;
+    font-family:'Roboto', sans-serif;
+}
+
+.tipo-operacao input{
+    appearance:none;
+    -webkit-appearance:none;
+    width:16px;
+    height:16px;
+    border:2px solid #1b40a7;
+    border-radius:50%;
+    margin-right:6px;
+    position:relative;
+    cursor:pointer;
+}
+
+.tipo-operacao input:checked{
+    background-color:#1b40a7;
+}
+
+.tipo-operacao span{
+    color:#1b40a7;
+}
